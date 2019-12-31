@@ -1,0 +1,12 @@
+Hexaforce-MacBookPro:proxy relics9$ keytool -printcert -file squidCA.cert
+所有者: EMAILADDRESS=relics9@gmail.com, CN=pg6kinl38e.execute-api.ap-northeast-1.amazonaws.com, OU=development, O=Hexaforce, L=Adachi, ST=Tokyo, C=JP
+発行者: EMAILADDRESS=relics9@gmail.com, CN=pg6kinl38e.execute-api.ap-northeast-1.amazonaws.com, OU=development, O=Hexaforce, L=Adachi, ST=Tokyo, C=JP
+シリアル番号: 9c879cbe08e1b0e0
+有効期間の開始日: Mon Dec 30 22:29:11 JST 2019 終了日: Fri Sep 28 22:29:11 JST 2029
+証明書のフィンガプリント:
+	 MD5:  6D:CD:E4:8B:DD:FD:41:09:0B:0C:D7:A9:B1:24:61:A9
+	 SHA1: 50:F8:C9:F2:19:99:04:F5:E7:48:3D:2B:54:4D:90:DE:FD:5E:17:89
+	 SHA256: 30:C1:B8:52:FC:E1:66:63:63:67:BF:EB:4E:94:90:E6:F1:6B:23:0F:87:EC:3F:A3:A2:9C:98:85:03:56:54:3E
+署名アルゴリズム名: SHA256withRSA
+サブジェクト公開キー・アルゴリズム: 2048ビットRSAキー
+バージョン: 3

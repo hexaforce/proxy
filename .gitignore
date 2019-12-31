@@ -1,0 +1,12 @@
+.history/
+
+.project
+.classpath
+
+.settings/
+target/
+
+.keystore
+squidCA.cert
+squidCA.keystore
+squidCA.pem
