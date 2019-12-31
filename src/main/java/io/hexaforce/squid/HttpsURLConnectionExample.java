@@ -17,18 +17,18 @@ PROXY_SERVER=http://squid.hexaforce.io:3128
 TEST_API=https://pg6kinl38e.execute-api.ap-northeast-1.amazonaws.com/api/login
 curl --cacert squidCA.pem $TEST_API -x $PROXY_SERVER -vvv
 		 *********************/
-		example.login(example.request(HTTP_PROXY, "testuser001", "test"));
+		example.login(example.request(HTTP_PROXY));
 		/*********************
 		 * CURLの場合 
 PROXY_SERVER=https://squid.hexaforce.io:443
 TEST_API=https://pg6kinl38e.execute-api.ap-northeast-1.amazonaws.com/api/login
 curl $TEST_API -x $PROXY_SERVER -vvv
 		 *********************/
-		example.login(example.request(HTTPS_PROXY, "testuser001", "test"));
+		example.login(example.request(HTTPS_PROXY));
 
 	}
 
-	private final static boolean validateClientTrust = true;
+	private final static boolean validateClientTrust = false;
 
 	private void login(HttpsURLConnection request) {
 
@@ -52,7 +52,7 @@ curl $TEST_API -x $PROXY_SERVER -vvv
 
 	}
 
-	private HttpsURLConnection request(Proxy proxy, String loginName, String passWord) throws IOException {
+	private HttpsURLConnection request(Proxy proxy) throws IOException {
 		HttpsURLConnection connection = (HttpsURLConnection) API_URL_LOGIN().openConnection(proxy);
 		connection.setRequestMethod("GET");
 		connection.setInstanceFollowRedirects(false);
