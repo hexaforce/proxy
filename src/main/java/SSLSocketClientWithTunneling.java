@@ -37,9 +37,21 @@
  * maintenance of any nuclear facility.
  */
 
-import java.net.*;
-import java.io.*;
-import javax.net.ssl.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.Socket;
+
+import javax.net.ssl.HandshakeCompletedEvent;
+import javax.net.ssl.HandshakeCompletedListener;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 /*
  * This example illustrates how to do proxy Tunneling to access a
@@ -62,6 +74,10 @@ public class SSLSocketClientWithTunneling {
     int tunnelPort;
 
     public void doIt(String host, int port) {
+
+    	System.setProperty("https.proxyHost", "squid.hexaforce.io");
+    	System.setProperty("https.proxyPort", "443");
+    	
         try {
 
             /*
@@ -159,7 +175,8 @@ public class SSLSocketClientWithTunneling {
     throws IOException
     {
         OutputStream out = tunnel.getOutputStream();
-        String msg = "CONNECT " + host + ":" + port + " HTTP/1.0\n"
+        @SuppressWarnings("restriction")
+		String msg = "CONNECT " + host + ":" + port + " HTTP/1.0\n"
                      + "User-Agent: "
                      + sun.net.www.protocol.http.HttpURLConnection.userAgent
                      + "\r\n\r\n";
@@ -190,7 +207,8 @@ public class SSLSocketClientWithTunneling {
         boolean         headerDone = false;     /* Done on first newline */
 
         InputStream     in = tunnel.getInputStream();
-        boolean         error = false;
+        @SuppressWarnings("unused")
+		boolean         error = false;
 
         while (newlinesSeen < 2) {
             int i = in.read();

@@ -2,28 +2,32 @@ package io.hexaforce.squid;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.Socket;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
-public class SocketSample implements Config {
+public class SocketSample2 implements Config {
 
 	public static void main(String[] args) throws IOException {
-		new SocketSample().execute();
+		new SocketSample2().execute();
 	}
 
 	void execute() throws IOException {
 
-		// クライアント証明(自己証明)
 		SSLSocketFactory clientAuthSocketFactory = CLIENT_AUTH_SOCKET_FACTORY();
+		SSLSocket tunnel = (SSLSocket) clientAuthSocketFactory.createSocket(PROXY_HOST, HTTPS_PROXY_PORT);
 
-		// クライアント証明 HTTPSプロクシのソケット
-		Socket tunneling = HTTPS_PROXY_SOCKET();
+//		OutputStream out = tunnel.getOutputStream();
+//		InputStream in = tunnel.getInputStream();
+
+		SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+
 		SSLSocket socket = (SSLSocket) clientAuthSocketFactory.createSocket( //
-				tunneling, //
+				tunnel, //
 				PROXY_HOST, //
 				HTTPS_PROXY_PORT, //
 				true);
@@ -37,7 +41,7 @@ public class SocketSample implements Config {
 
 		System.out.println("test");
 		dump_response(socket.getInputStream());
-
+		
 	}
 
 }

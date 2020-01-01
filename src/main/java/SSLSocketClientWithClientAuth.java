@@ -38,11 +38,19 @@
  */
 
 
-import java.net.*;
-import java.io.*;
-import javax.net.ssl.*;
-import javax.security.cert.X509Certificate;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.security.KeyStore;
+
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 /*
  * This example shows how to set up a key manager to do client
@@ -55,28 +63,30 @@ import java.security.KeyStore;
 public class SSLSocketClientWithClientAuth {
 
     public static void main(String[] args) throws Exception {
-        String host = null;
-        int port = -1;
-        String path = null;
-        for (int i = 0; i < args.length; i++)
-            System.out.println(args[i]);
+    	
+        String host = "squid.hexaforce.io";
+        int port = 443;
+        String path = "https://pg6kinl38e.execute-api.ap-northeast-1.amazonaws.com/api/login";
+        
+//        for (int i = 0; i < args.length; i++)
+//            System.out.println(args[i]);
+//
+//        if (args.length < 3) {
+//            System.out.println(
+//                "USAGE: java SSLSocketClientWithClientAuth " +
+//                "host port requestedfilepath");
+//            System.exit(-1);
+//        }
 
-        if (args.length < 3) {
-            System.out.println(
-                "USAGE: java SSLSocketClientWithClientAuth " +
-                "host port requestedfilepath");
-            System.exit(-1);
-        }
-
-        try {
-            host = args[0];
-            port = Integer.parseInt(args[1]);
-            path = args[2];
-        } catch (IllegalArgumentException e) {
-             System.out.println("USAGE: java SSLSocketClientWithClientAuth " +
-                 "host port requestedfilepath");
-             System.exit(-1);
-        }
+//        try {
+//            host = args[0];
+//            port = Integer.parseInt(args[1]);
+//            path = args[2];
+//        } catch (IllegalArgumentException e) {
+//             System.out.println("USAGE: java SSLSocketClientWithClientAuth " +
+//                 "host port requestedfilepath");
+//             System.exit(-1);
+//        }
 
         try {
 
@@ -90,13 +100,14 @@ public class SSLSocketClientWithClientAuth {
                 SSLContext ctx;
                 KeyManagerFactory kmf;
                 KeyStore ks;
-                char[] passphrase = "passphrase".toCharArray();
+                char[] passphrase = "B9cMw7qX".toCharArray();
 
                 ctx = SSLContext.getInstance("TLS");
                 kmf = KeyManagerFactory.getInstance("SunX509");
                 ks = KeyStore.getInstance("JKS");
 
-                ks.load(new FileInputStream("testkeys"), passphrase);
+                //ks.load(new FileInputStream("/Users/relics9/.keystore"), passphrase);
+                ks.load(new FileInputStream(".keystore"), passphrase);
 
                 kmf.init(ks, passphrase);
                 ctx.init(kmf.getKeyManagers(), null, null);

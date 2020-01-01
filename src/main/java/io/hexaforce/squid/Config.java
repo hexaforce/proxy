@@ -51,9 +51,11 @@ public interface Config {
 		return null;
 	}
 
-	// final public static File KEY_STORE_FILE = new File(".keystore");
-	final public static File KEY_STORE_FILE = new File("squidCA.keystore");
-
+	//final public static File KEY_STORE_FILE = new File(".keystore");
+	//final public static File KEY_STORE_FILE = new File("squidCA.keystore");
+	//final public static File KEY_STORE_FILE = new File("squidCA2.keystore");
+	final public static File KEY_STORE_FILE = new File("/Users/relics9/.keystore");
+	
 	final public static char[] KEY_STORE_PASSWORD = "B9cMw7qX".toCharArray();
 
 	default SSLSocketFactory CLIENT_AUTH_SOCKET_FACTORY() throws IOException {
@@ -99,25 +101,21 @@ public interface Config {
 		SSLContext context;
 		try {
 			context = SSLContext.getInstance("TLS");
-			TrustManager[] unChecklientTrust = { new X509TrustManager() {
-
+			X509TrustManager trustManager = new X509TrustManager() {
 				public X509Certificate[] getAcceptedIssuers() {
 					System.out.println("############### getAcceptedIssuers ###############");
 					return new X509Certificate[0];
 				}
-
 				public void checkClientTrusted(X509Certificate[] certs, String authType) {
 					System.out.println("############### checkClientTrusted ###############");
 					System.out.println("authType :" + authType);
 					dump_certs(certs);
 				}
-
 				public void checkServerTrusted(X509Certificate[] certs, String authType) {
 					System.out.println("############### checkServerTrusted ###############");
 					System.out.println("authType :" + authType);
 					dump_certs(certs);
 				}
-
 				private void dump_certs(X509Certificate[] certs) {
 					for (X509Certificate c : certs) {
 						System.out.println("SigAlgName :" + c.getSigAlgName());
@@ -131,7 +129,6 @@ public interface Config {
 					}
 					System.out.println("　");
 				}
-
 				private void dump(Collection<List<?>> c) {
 					if (c != null) {
 						for (List<?> o : c) {
@@ -141,7 +138,8 @@ public interface Config {
 						}
 					}
 				}
-			} };
+			};
+			TrustManager[] unChecklientTrust = { trustManager };
 			try {
 				context.init(null, unChecklientTrust, new SecureRandom());
 				return context.getSocketFactory();

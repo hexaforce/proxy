@@ -1,0 +1,12 @@
+/ # keytool -printcert -file squidCA2.cert
+Owner: EMAILADDRESS=relics9@gmail.com, CN=squid.hexaforce.io, OU=development, O=Hexaforce, L=Adachi, ST=Tokyo, C=JP
+Issuer: EMAILADDRESS=relics9@gmail.com, CN=squid.hexaforce.io, OU=development, O=Hexaforce, L=Adachi, ST=Tokyo, C=JP
+Serial number: fd758c7de257934a
+Valid from: Tue Dec 31 02:51:44 GMT 2019 until: Sat Sep 29 02:51:44 GMT 2029
+Certificate fingerprints:
+	 MD5:  28:77:6B:66:DF:60:01:EF:0C:62:2C:AE:01:36:CC:86
+	 SHA1: 85:31:2F:5F:14:CC:0F:9A:66:DB:2F:A8:9A:C4:F9:62:2D:CD:5D:13
+	 SHA256: 31:A2:4B:7A:77:01:9B:96:D2:C6:DD:3A:28:58:DB:0D:07:E3:22:E9:E3:7F:92:DE:DD:13:06:D1:B6:30:12:84
+Signature algorithm name: SHA256withRSA
+Subject Public Key Algorithm: 2048-bit RSA key
+Version: 3

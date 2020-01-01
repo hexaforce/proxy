@@ -10,3 +10,6 @@ target/
 squidCA.cert
 squidCA.keystore
 squidCA.pem
+squidCA2.cert
+squidCA2.pem
+squid.hexaforce.io.cert
