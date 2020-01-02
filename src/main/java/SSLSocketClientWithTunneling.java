@@ -98,7 +98,7 @@ public class SSLSocketClientWithTunneling {
             tunnelPort = Integer.getInteger("https.proxyPort").intValue();
 
             Socket tunnel = new Socket(tunnelHost, tunnelPort);
-            doTunnelHandshake(tunnel, host, port);
+            //doTunnelHandshake(tunnel, host, port);
 
             /*
              * Ok, let's overlay the tunnel socket with SSL.
@@ -137,7 +137,7 @@ public class SSLSocketClientWithTunneling {
                                   new OutputStreamWriter(
                                   socket.getOutputStream())));
 
-            out.println("GET / HTTP/1.0");
+            out.println("GET "+API_LOGIN+" HTTP/1.0");
             out.println();
             out.flush();
 
@@ -166,12 +166,14 @@ public class SSLSocketClientWithTunneling {
             e.printStackTrace();
         }
     }
-
+    
+    final public static String API_LOGIN = "https://pg6kinl38e.execute-api.ap-northeast-1.amazonaws.com/api/login";
+    
     /*
      * Tell our tunnel where we want to CONNECT, and look for the
      * right reply.  Throw IOException if anything goes wrong.
      */
-    private void doTunnelHandshake(Socket tunnel, String host, int port)
+    public void doTunnelHandshake(Socket tunnel, String host, int port)
     throws IOException
     {
         OutputStream out = tunnel.getOutputStream();

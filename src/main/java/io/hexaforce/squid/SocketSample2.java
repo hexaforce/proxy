@@ -18,29 +18,29 @@ public class SocketSample2 implements Config {
 
 	void execute() throws IOException {
 
-		SSLSocketFactory clientAuthSocketFactory = CLIENT_AUTH_SOCKET_FACTORY();
-		SSLSocket tunnel = (SSLSocket) clientAuthSocketFactory.createSocket(PROXY_HOST, HTTPS_PROXY_PORT);
-
-//		OutputStream out = tunnel.getOutputStream();
-//		InputStream in = tunnel.getInputStream();
-
-		SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-
-		SSLSocket socket = (SSLSocket) clientAuthSocketFactory.createSocket( //
-				tunnel, //
-				PROXY_HOST, //
-				HTTPS_PROXY_PORT, //
-				true);
-
-		socket.startHandshake();
-
-		PrintWriter request = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())));
-		request.println("GET " + API_LOGIN + " HTTP/1.0");
-		request.println();
-		request.flush();
-
-		System.out.println("test");
-		dump_response(socket.getInputStream());
+//		SSLSocketFactory clientAuthSocketFactory = CLIENT_AUTH_SOCKET_FACTORY();
+//		SSLSocket tunnel = (SSLSocket) clientAuthSocketFactory.createSocket(PROXY_HOST, HTTPS_PROXY_PORT);
+//
+////		OutputStream out = tunnel.getOutputStream();
+////		InputStream in = tunnel.getInputStream();
+//
+//		SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+//
+//		SSLSocket socket = (SSLSocket) clientAuthSocketFactory.createSocket( //
+//				tunnel, //
+//				PROXY_HOST, //
+//				HTTPS_PROXY_PORT, //
+//				true);
+//
+//		socket.startHandshake();
+//
+//		PrintWriter request = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())));
+//		request.println("GET " + API_LOGIN + " HTTP/1.0");
+//		request.println();
+//		request.flush();
+//
+//		System.out.println("test");
+//		dump_response(socket.getInputStream());
 		
 	}
 

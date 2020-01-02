@@ -12,23 +12,16 @@ public class HttpsURLConnectionExample implements Config {
 		HttpsURLConnectionExample example = new HttpsURLConnectionExample();
 
 		/*********************
-		 * CURLの場合 
-PROXY_SERVER=http://squid.hexaforce.io:3128
-TEST_API=https://pg6kinl38e.execute-api.ap-northeast-1.amazonaws.com/api/login
-curl --cacert squidCA.pem $TEST_API -x $PROXY_SERVER -vvv
-		 *********************/
-		example.login(example.request(HTTP_PROXY));
-		/*********************
-		 * CURLの場合 
-PROXY_SERVER=https://squid.hexaforce.io:443
-TEST_API=https://pg6kinl38e.execute-api.ap-northeast-1.amazonaws.com/api/login
-curl $TEST_API -x $PROXY_SERVER -vvv
+		 * CURLの場合 PROXY_SERVER=https://squid.hexaforce.io:443
+		 * TEST_API=https://pg6kinl38e.execute-api.ap-northeast-1.amazonaws.com/api/login
+		 * curl $TEST_API -x $PROXY_SERVER -vvv
 		 *********************/
 		example.login(example.request(HTTPS_PROXY));
 
 	}
 
-	private final static boolean validateClientTrust = false;
+
+	final public static String API_LOGIN = "https://pg6kinl38e.execute-api.ap-northeast-1.amazonaws.com/api/login";
 
 	private void login(HttpsURLConnection request) {
 
@@ -37,11 +30,12 @@ curl $TEST_API -x $PROXY_SERVER -vvv
 
 		try {
 
-			if (validateClientTrust) {
-				request.setSSLSocketFactory(CLIENT_AUTH_SOCKET_FACTORY());
-			} else {
-				request.setSSLSocketFactory(UNCHECK_CLIENT_AUTH_SOCKET_FACTORY());
-			}
+			request.setSSLSocketFactory(CLIENT_AUTH_SOCKET_FACTORY( //
+					null,//loadKeyManager(), //
+					null,//unCheckTrustManager(), //
+					null//new SecureRandom() //
+			));
+
 			System.out.println("test");
 			dump_response(request.getInputStream());
 
@@ -53,7 +47,7 @@ curl $TEST_API -x $PROXY_SERVER -vvv
 	}
 
 	private HttpsURLConnection request(Proxy proxy) throws IOException {
-		HttpsURLConnection connection = (HttpsURLConnection) API_URL_LOGIN().openConnection(proxy);
+		HttpsURLConnection connection = (HttpsURLConnection) API_URL_LOGIN(API_LOGIN).openConnection(proxy);
 		connection.setRequestMethod("GET");
 		connection.setInstanceFollowRedirects(false);
 		return connection;

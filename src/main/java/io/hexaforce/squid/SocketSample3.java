@@ -2,13 +2,11 @@ package io.hexaforce.squid;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.security.SecureRandom;
 
 import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
 
 public class SocketSample3 implements Config {
 
@@ -16,32 +14,31 @@ public class SocketSample3 implements Config {
 		new SocketSample().execute();
 	}
 
+
+	final public static String API_LOGIN = "https://pg6kinl38e.execute-api.ap-northeast-1.amazonaws.com/api/login";
+
 	void execute() throws IOException {
 
-		SSLSocketFactory clientAuthSocketFactory = CLIENT_AUTH_SOCKET_FACTORY();
-		SSLSocket tunnel = (SSLSocket) clientAuthSocketFactory.createSocket(PROXY_HOST, HTTPS_PROXY_PORT);
+		SSLSocket socket = (SSLSocket) CLIENT_AUTH_SOCKET_FACTORY( //
+				loadKeyManager(), //
+				unCheckTrustManager(), //
+				new SecureRandom() //
+		).createSocket( //
+				PROXY_HOST, //
+				HTTPS_PROXY_PORT //
+		);
 
-//		OutputStream out = tunnel.getOutputStream();
-//		InputStream in = tunnel.getInputStream();
+		socket.addHandshakeCompletedListener(DEBUG_LISTENER());
+		socket.startHandshake();
 
-//		SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-//
-//		SSLSocket socket = (SSLSocket) clientAuthSocketFactory.createSocket( //
-//				tunnel, //
-//				PROXY_HOST, //
-//				HTTPS_PROXY_PORT, //
-//				true);
-//
-//		socket.startHandshake();
-
-		PrintWriter request = new PrintWriter(new BufferedWriter(new OutputStreamWriter(tunnel.getOutputStream())));
+		PrintWriter request = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())));
 		request.println("GET " + API_LOGIN + " HTTP/1.0");
 		request.println();
 		request.flush();
 
 		System.out.println("test");
-		dump_response(tunnel.getInputStream());
-		
+		dump_response(socket.getInputStream());
+
 	}
 
 }

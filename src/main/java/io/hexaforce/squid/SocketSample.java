@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.security.SecureRandom;
 
 import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
 
 public class SocketSample implements Config {
 
@@ -15,19 +15,25 @@ public class SocketSample implements Config {
 		new SocketSample().execute();
 	}
 
-	void execute() throws IOException {
 
-		// クライアント証明(自己証明)
-		SSLSocketFactory clientAuthSocketFactory = CLIENT_AUTH_SOCKET_FACTORY();
+	final public static String API_LOGIN = "https://pg6kinl38e.execute-api.ap-northeast-1.amazonaws.com/api/login";
 
-		// クライアント証明 HTTPSプロクシのソケット
-		Socket tunneling = HTTPS_PROXY_SOCKET();
-		SSLSocket socket = (SSLSocket) clientAuthSocketFactory.createSocket( //
-				tunneling, //
+	void execute() throws IOException  {
+
+		Socket tunnel = HTTPS_PROXY_SOCKET();
+
+		SSLSocket socket = (SSLSocket) CLIENT_AUTH_SOCKET_FACTORY( //
+				loadKeyManager(), //
+				unCheckTrustManager(), //
+				new SecureRandom() //
+		).createSocket( //
+				tunnel, //
 				PROXY_HOST, //
 				HTTPS_PROXY_PORT, //
-				true);
+				true //
+		);
 
+		socket.addHandshakeCompletedListener(DEBUG_LISTENER());
 		socket.startHandshake();
 
 		PrintWriter request = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())));
